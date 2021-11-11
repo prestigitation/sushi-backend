@@ -1,0 +1,22 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Get All Sushi",
+        "version": "1"
+    },
+    "paths": {
+        "/sushi": {
+            "get": {
+                "operationId": "f581aa5122d4bccf77c0fa30d274522e",
+                "responses": {
+                    "200": {
+                        "description": "Display a listing of sushi."
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
