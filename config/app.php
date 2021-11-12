@@ -167,6 +167,7 @@ return [
          */
 
         L5Swagger\L5SwaggerServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -5,12 +5,15 @@
         "version": "1"
     },
     "paths": {
-        "/sushi": {
+        "/sushis": {
             "get": {
-                "operationId": "f581aa5122d4bccf77c0fa30d274522e",
+                "operationId": "e8211d43d15d0ab9fccfd08980a0f7ef",
                 "responses": {
                     "200": {
-                        "description": "Display a listing of sushi."
+                        "description": "Listing of sushi."
+                    },
+                    "404": {
+                        "description": "Sushi not found error"
                     }
                 }
             }

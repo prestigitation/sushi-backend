@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SushiCollection extends ResourceCollection
+class RoleCollection extends ResourceCollection
 {
-    public static $wrap = null; // лара по умолчанию оборачивает response в ключ data
     /**
      * Transform the resource collection into an array.
      *
