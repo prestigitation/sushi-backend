@@ -1,19 +1,89 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Get All Sushi",
+        "title": "Get all avaliable categories",
+        "description": "Display a listing of the resource.",
         "version": "1"
     },
     "paths": {
-        "/sushis": {
-            "get": {
-                "operationId": "e8211d43d15d0ab9fccfd08980a0f7ef",
+        "/auth/login": {
+            "post": {
+                "summary": "Get a JWT via given credentials.",
+                "operationId": "8cb7742ae98d0990acb2907c4e00bf24",
                 "responses": {
                     "200": {
-                        "description": "Listing of sushi."
+                        "description": "Respond with access token,expiration date"
+                    },
+                    "403": {
+                        "description": "Unathorized"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "summary": "Log the user out (Invalidate the token).",
+                "operationId": "0d29c740dc06d77602af8095bf4654cc",
+                "responses": {
+                    "200": {
+                        "description": "Log the user out"
+                    },
+                    "403": {
+                        "description": "Unathorized"
+                    }
+                }
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "summary": "Refresh a token.",
+                "operationId": "f6c9683ed975ace7d035a09e6e2a9332",
+                "responses": {
+                    "200": {
+                        "description": "Respond with refreshed token"
+                    },
+                    "403": {
+                        "description": "Unathorized"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "summary": "User register",
+                "operationId": "ed42f392010c301892e640067141676e",
+                "responses": {
+                    "200": {
+                        "description": "Creates a new user via given credentials"
+                    },
+                    "500": {
+                        "description": "Returns when there is an error creating the user in database(e.g when user with unique email already exists)"
+                    }
+                }
+            }
+        },
+        "/sushi": {
+            "get": {
+                "operationId": "f581aa5122d4bccf77c0fa30d274522e",
+                "responses": {
+                    "200": {
+                        "description": "Display listing of all avaliable sushi."
                     },
                     "404": {
-                        "description": "Sushi not found error"
+                        "description": "Response when Sushi not found"
+                    }
+                }
+            }
+        },
+        "/category": {
+            "get": {
+                "operationId": "5bd5edd26a8c507b3ab93616cbf408b5",
+                "responses": {
+                    "200": {
+                        "description": "Respond with list of categories"
+                    },
+                    "404": {
+                        "description": "Not found categories"
                     }
                 }
             }

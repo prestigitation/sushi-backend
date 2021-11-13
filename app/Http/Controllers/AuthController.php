@@ -2,28 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+
+use App\Models\User;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
-    }
+    } */
 
     /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @OA\Post(
+     *     path="/auth/login",
+     *     @OA\Response(response="200", description="Respond with access token,expiration date"),
+     *     @OA\Response(response="401", description="Unathorized")
+     *     @OA\Response(response="403", description="Forbidden")
+     * ),
      */
     public function login()
     {
@@ -50,6 +53,12 @@ class AuthController extends Controller
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @OA\Post(
+     *     path="/auth/logout",
+     *     @OA\Response(response="200", description="Log the user out"),
+     *     @OA\Response(response="403", description="Unathorized")
+     * ),
      */
     public function logout()
     {
@@ -62,6 +71,12 @@ class AuthController extends Controller
      * Refresh a token.
      *
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @OA\Post(
+     *     path="/auth/refresh",
+     *     @OA\Response(response="200", description="Respond with refreshed token"),
+     *     @OA\Response(response="403", description="Unathorized")
+     * ),
      */
     public function refresh()
     {
@@ -84,13 +99,26 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * User register
+     *
+     * @param Symfony\Component\HttpFoundation\Request
+     *
+     * @return Symfony\Component\HttpFoundation\JsonResponse
+     *
+     * @OA\Post(
+     *     path="/auth/register",
+     *     @OA\Response(response="200", description="Creates a new user via given credentials"),
+     *     @OA\Response(response="500", description="Returns when there is an error creating the user in database(e.g when user with unique email already exists)"),
+     * ),
+     */
     public function register(Request $request)
     {
-        User::create([
+        return new JsonResponse(User::create([
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'name' => $request->input('name'),
-        ]);
+        ]));
     }
 }
 

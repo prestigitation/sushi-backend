@@ -15,7 +15,7 @@ class CreateConsistsTable extends Migration
     {
         Schema::create('consists', function (Blueprint $table) {
             $table->id();
-            $table->json('ingredients');
+            $table->string('name');
         });
     }
 

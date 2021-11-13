@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SushiController;
 
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::apiResource('sushi', SushiController::class);
+Route::apiResource('category',CategoryController::class);

@@ -23,10 +23,9 @@ Route::group([
     'prefix' => 'auth',
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    Route::post('login', 'AuthController@login');
+    Route::post('login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('register', 'AuthController@register');
-
+    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register']);
 });
