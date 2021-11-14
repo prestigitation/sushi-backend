@@ -13,12 +13,12 @@ class CreateCategoriesSushisTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories_sushis', function (Blueprint $table) {
+        Schema::create('categories_products', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('category_id');
-            $table->bigInteger('sushi_id');
+            $table->bigInteger('product_id');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('sushi_id')->references('id')->on('sushis');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

@@ -11,8 +11,8 @@ class Consist extends Model
     protected $casts = [
         'ingredients' => 'array'
     ];
-    public function sushis()
+    public function products()
     {
-        return $this->belongsTo(Sushi::class);
+        return $this->belongsTo(Product::class);
     }
 }

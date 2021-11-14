@@ -15,9 +15,4 @@ use App\Http\Controllers\SushiController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::apiResource('sushi', SushiController::class);
-Route::apiResource('category',CategoryController::class);

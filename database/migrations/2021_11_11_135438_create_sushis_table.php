@@ -13,16 +13,16 @@ class CreateSushisTable extends Migration
      */
     public function up()
     {
-        Schema::create('sushis', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->string('name');
             $table->string('slug');
             $table->string('image_path');
             $table->integer('price');
-            $table->integer('discount_price')->default(0);
-            $table->integer('gram_count'); // кол-во грамм
-            $table->integer('pieces_count'); // количество кусочков
-            $table->json('consist'); // состав
+            $table->integer('discount_price')->default(0)->nullable();
+            $table->integer('gram_count')->nullable(); // кол-во грамм
+            $table->integer('pieces_count')->nullable(); // количество кусочков
+            $table->json('consist')->nullable(); // состав
         });
     }
 

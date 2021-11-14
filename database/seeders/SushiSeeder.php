@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Sushi;
+use App\Models\Product;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class SushiSeeder extends Seeder
+class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,10 +18,10 @@ class SushiSeeder extends Seeder
     {
         $sushiCount = 3;
         for($i = 0; $i < $sushiCount; $i++) {
-            $sushiName = "Суши $i";
-            Sushi::create([
-            'name' => $sushiName,
-            'slug' => Str::slug($sushiName),
+            $productName = "Суши $i";
+            Product::create([
+            'name' => $productName,
+            'slug' => Str::slug($productName),
             'image_path' => public_path('img\Sushi.svg'),
             'price' => 50,
             'discount_price' => 35,

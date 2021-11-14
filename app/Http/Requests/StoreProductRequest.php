@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreSushiRequest extends FormRequest
+class StoreProductRequest extends FormRequest
 {
 
     /**
@@ -49,9 +49,9 @@ class StoreSushiRequest extends FormRequest
             'slug' => 'nullable',
             'price' => 'required|integer',
             'discount_price' => 'nullable',
-            'gram_count' => 'required|integer',
-            'pieces_count' => 'required|integer',
-            'consist' => 'required'
+            'gram_count' => 'nullable|integer',
+            'pieces_count' => 'nullable|integer',
+            'consist' => 'nullable|json'
         ];
     }
 

@@ -1,15 +1,15 @@
 <?php
 namespace App\Http\Services;
 
-use App\Http\Requests\StoreSushiRequest;
+use App\Http\Requests\StoreProductRequest;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\SushiCollection;
+use App\Http\Resources\ProductCollection;
 use Illuminate\Support\Facades\Request;
 
-use App\Models\Sushi;
+use App\Models\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SushiService {
+class ProductService {
     /**
      * Display a listing of the resource.
      *
@@ -24,15 +24,15 @@ class SushiService {
      */
     public static function getAll()
     {
-        return new SushiCollection(Sushi::all());
+        return new ProductCollection(Product::all());
     }
 
 
-    public static function store(StoreSushiRequest $request)
+    public static function store(StoreProductRequest $request)
     {
-        $sushi = new Sushi();
-        $response = $sushi->forceFill($request->all());
-        if($sushi->save()){
+        $Product = new Product();
+        $response = $Product->forceFill($request->all());
+        if($Product->save()){
             return new JsonResource($response);
         }
     }

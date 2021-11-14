@@ -16,9 +16,10 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->string('name');
-            $table->string('image_path');
-            $table->boolean('is_able'); // доступна ли категория
-            $table->json('sushis');
+            $table->string('preview_image')->default(''); // миниатюрная картинка категории в блоке слева
+            $table->string('image')->default('');
+            $table->boolean('image_small');
+            $table->boolean('is_able')->default(true); // доступна ли категория
         });
     }
 

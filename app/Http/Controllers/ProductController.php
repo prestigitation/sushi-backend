@@ -3,27 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Http\Requests\StoreSushiRequest;
+use App\Http\Requests\StoreProductRequest;
 
-use App\Http\Resources\SushiCollection;
-use App\Http\Services\SushiService;
-use Illuminate\Support\Facades\Response;
+use App\Http\Resources\ProductCollection;
 
-class SushiController extends Controller
+use App\Http\Services\ProductService;
+
+class ProductController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/sushi",
-     *     @OA\Response(response="200", description="Display listing of all avaliable sushi."),
-     *     @OA\Response(response="404", description="Response when Sushi not found")
+     *     path="/api/product",
+     *     @OA\Response(response="200", description="Display listing of all avaliable Products."),
+     *     @OA\Response(response="404", description="Response when Products not found")
      * ),
      */
     public function index()
     {
-        $allSushi = SushiService::getAll();
-        if($allSushi) {
-            return new SushiCollection($allSushi);
+        $allProduct = ProductService::getAll();
+        if($allProduct) {
+            return new ProductCollection($allProduct);
         } else return abort(404);
     }
 
@@ -35,19 +34,19 @@ class SushiController extends Controller
      * @return \Illuminate\Http\Response
      *
      * @OA\Post(
-     *     path="/sushi",
-     *     @OA\Response(response="200", description="Stores a new sushi in DB"),
+     *     path="/api/product",
+     *     @OA\Response(response="200", description="Stores a new Product in DB"),
      *     @OA\Response(response="403", description="Not authorized")
      *     @OA\Response(response="500", description="Response when there is an DB error")
      * ),
      */
-    public function store(StoreSushiRequest $request)
+    public function store(StoreProductRequest $request)
     {
             $validated = $request->validated();
             if($validated) {
-                $sushi = SushiService::store($request);
-                if($sushi) {
-                    return response($sushi,200);
+                $Product = ProductService::store($request);
+                if($Product) {
+                    return response($Product,200);
                 } else return abort(500);
             } else return abort(500);
     }

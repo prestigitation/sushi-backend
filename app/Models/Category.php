@@ -12,8 +12,8 @@ class Category extends Model
         'sushis' => 'array'
     ];
     use HasFactory;
-    public function sushis()
+    public function products()
     {
-        return $this->hasMany(Sushi::class);
+        return $this->hasMany(Product::class);
     }
 }

@@ -13,6 +13,12 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     *
+     * @OA\Get(
+     *     path="/api/category",
+     *     @OA\Response(response="200", description="Returns a listing of all categories"),
+     *     @OA\Response(response="404", description="Not found")
+     * ),
      */
     public function index()
     {

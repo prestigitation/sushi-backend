@@ -15,28 +15,95 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-        $sushis = [];
-        $sushiCount = 3;
-        $categiesCount = 3;
-        for($i = 0; $i < $sushiCount; $i++) {
-            $categoryName = "Категория $i";
-            array_push($sushis,new Sushi([
-            'name' => $categoryName,
-            'slug' => Str::slug($categoryName),
-            'image_path' => '',
-            'price' => 50,
-            'discount_price' => 35,
-            'gram_count' => 1250, // кол-во грамм
-            'pieces_count' => 4, // количество кусочков
-            'consist' => [],
-            ]));
-        }
-        for($j = 0; $j < $categiesCount; $j++) {
+        $categories = array(
+        0 => [
+            'name' => 'Пицца',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Pizza.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Pizza.jpg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        1 => [
+            'name' => 'Сеты',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Set.svg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        2 => [
+            'name' => 'WOK',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Wok.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Wok.jpg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        3 => [
+            'name' => 'Роллы',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Rolls.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Rolls.jpg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        4 => [
+            'name' => 'Суши',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Sushi.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Sushi.jpg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        5 => [
+            'name' => 'Салаты',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Salads.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Salads.jpg',
+            'image_small' => 0,
+            'is_able' => 0
+        ],
+        6 => [
+            'name' => 'Супы',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Soup.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Soup.jpg',
+            'image_small' => 0,
+            'is_able' => 0
+        ],
+        7 => [
+            'name' => 'Корн доги',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/CornDogs.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/CornDogs.jpg',
+            'image_small' => 1,
+            'is_able' => 1
+        ],
+        8 => [
+            'name' => 'Напитки',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Drink.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Drink.jpg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        9 => [
+            'name' => 'Акции',
+            'preview_image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Discount.svg',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/image/Discount.jpg',
+            'image_small' => 0,
+            'is_able' => 1
+        ],
+        [
+            'name' => 'С угрем',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/preview/Ugr.jpg',
+            'image_small' => 1,
+            'is_able' => 1
+        ],
+        [
+            'name' => 'Чикен',
+            'image' => 'http://127.0.0.1:8000/storage/images/categories/imageChicken.jpg',
+            'image_small' => 1,
+            'is_able' => 1
+        ]);
+        for($i = 0; $i < count($categories); $i++) {
             Category::create([
-                'name' => $sushis[$j]['name'],
-                'image_path' => public_path('img\CategoryBanner.svg'),
-                'is_able' => true,
-                'sushis' => $sushis
+                'name' => $categories[$i]['name'],
+                'preview_image' => $categories[$i]['preview_image'] ?? '',
+                'image' => $categories[$i]['image'] ?? '',
+                'image_small' => $categories[$i]['image_small'],
+                'is_able' => $categories[$i]['is_able'],
             ]);
         }
     }

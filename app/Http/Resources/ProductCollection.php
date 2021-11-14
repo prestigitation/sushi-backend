@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SushiCollection extends ResourceCollection
+class ProductCollection extends ResourceCollection
 {
     public static $wrap = null; // лара по умолчанию оборачивает response в ключ data
     /**

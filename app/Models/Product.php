@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Sushi extends Model
+class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasEvents;
 
     public $timestamps = false;
 
@@ -36,10 +37,11 @@ class Sushi extends Model
     {
         return $this->hasMany(Consist::class);
     }
-    protected static function booted()
+    public static function boot()
     {
-        static::created(function ($user) {
-            $user->slug = Str::slug($user->slug);
+        parent::boot(); // TODO: refactor with events
+        static::creating(function (Product $product) {
+            $product->slug = Str::slug($product->name);
         });
     }
 }
