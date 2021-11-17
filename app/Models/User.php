@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\UserObserver;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 
@@ -44,10 +46,15 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles() {
-        return $this->hasOne(Role::class);
+    public function role() {
+        return $this->belongsToMany(Role::class);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+        User::observe(new UserObserver);
+    }
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

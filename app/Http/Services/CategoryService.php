@@ -19,6 +19,25 @@ class CategoryService
         return new CategoryCollection(Category::all());
     }
 
+    public static function getBannerCategories() {
+        $bannerImages = Category::select('name','image','image_small', 'slug')
+                                ->where('image', '!=', '')
+                                ->get()
+                                ->toArray();
+        $smallBannerImages = [];
+        $largeBannerImages = [];
+        foreach($bannerImages as $image) {
+            if($image['image_small'] === 1) {
+                array_push($smallBannerImages, $image);
+            } else array_push($largeBannerImages, $image);
+        }
+        $result = [
+            'small_images' => $smallBannerImages,
+            'large_images' =>  $largeBannerImages
+        ];
+        return $result;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

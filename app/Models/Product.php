@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\ProductObserver;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,23 +26,31 @@ class Product extends Model
         'pieces_count',
         'consist',
     ];
-
-
     protected $casts = [
         'consist' => 'array'
     ];
+
+
     public function categories() {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
     public function consists()
     {
         return $this->hasMany(Consist::class);
     }
+
+
+
+    public function scopeSushi($query) {
+        return $query->where('gram_count', '>', 0)
+                        ->where('pieces_count', '>', 0)
+                        ->whereNotNull('name')
+                        ->whereNotNull('image_path')
+                        ->whereNotNull('price');
+    }
     public static function boot()
     {
-        parent::boot(); // TODO: refactor with events
-        static::creating(function (Product $product) {
-            $product->slug = Str::slug($product->name);
-        });
+        parent::boot();
+        Product::observe(new ProductObserver);
     }
 }

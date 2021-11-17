@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterUserRequest;
+use App\Models\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    /*public function __construct()
+   /* public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
-    } */
+    }*/
 
     /**
      * Get a JWT via given credentials.
@@ -31,8 +34,8 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
+        //dd($credentials);
+        if (! $token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -112,13 +115,20 @@ class AuthController extends Controller
      *     @OA\Response(response="500", description="Returns when there is an error creating the user in database(e.g when user with unique email already exists)"),
      * ),
      */
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-        return new JsonResponse(User::create([
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'name' => $request->input('name'),
-        ]));
+        try {
+            $user = new User();
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password
+            ]);
+            $user->roles()->attach(Role::ROLE_USER);
+            return new JsonResponse(['message' => 'Вы успешно зарегистрировались!']);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => 'Не удалось зарегистрировать пользователя. Возможно, в базе уже существуют пользователи с таким же e-mail']);
+        }
     }
 }
 

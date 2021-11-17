@@ -40,6 +40,20 @@ class CategoryController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/category/grid_banner",
+     *     @OA\Response(response="200", description="Returns a listing of categories that have banner image to display in index page"),
+     *     @OA\Response(response="404", description="Not found")
+     * ),
+     */
+    public function getBannerCategories() {
+        $bannerCategories = CategoryService::getBannerCategories();
+        if($bannerCategories) {
+            return new JsonResponse($bannerCategories);
+        } else return abort(404);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

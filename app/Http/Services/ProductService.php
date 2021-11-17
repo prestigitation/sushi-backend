@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Services;
 
+use App\Http\Filters\ProductFilter;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\ProductCollection;
@@ -15,24 +16,30 @@ class ProductService {
      *
      * @return \Illuminate\Http\Response
      *
-     * @OA\Get(
-     *     path="/category",
-     *     @OA\Response(response="200", description="Respond with list of categories"),
-     *     @OA\Response(response="404", description="Not found categories")
-     * ),
-     * @OA\Info(title="Get all avaliable categories", version="1")
      */
     public static function getAll()
     {
         return new ProductCollection(Product::all());
     }
 
+    public static function getIndexPageProductsByFilter($filter) {
+        $filter = new ProductFilter($filter);
+        return new ProductCollection($filter->matchIndexProducts());
+    }
+
+    public static function getCarousel() {
+        return new ProductCollection(Product::whereNotNull('image_path')
+                                            ->where('in_stock', '!=', 0)
+                                            ->limit(5)
+                                            ->get());
+    }
+
 
     public static function store(StoreProductRequest $request)
     {
-        $Product = new Product();
-        $response = $Product->forceFill($request->all());
-        if($Product->save()){
+        $product = new Product();
+        $response = $product->forceFill($request->all());
+        if($product->save()){
             return new JsonResource($response);
         }
     }
