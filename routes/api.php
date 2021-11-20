@@ -7,6 +7,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoleController;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,18 +26,31 @@ use App\Http\Controllers\RoleController;
 Route::group([
     'prefix' => 'product'
 ], function ($router) {
-    Route::get('index_page', [
+    Route::get('index_page/products_list', [
         'as' => 'get_index_page_products',
         'uses' => 'App\Http\Controllers\ProductController@getIndexPageProducts'
     ]);
+    Route::get('index_page/carousel', [
+        'as' => 'get_index_page_carousel',
+        'uses' => 'App\Http\Controllers\ProductController@getIndexPageCarousel'
+    ]);
+
 });
 Route::group([
     'prefix' => 'category'
-], function ($router) {
+], function () {
     Route::get('grid_banner', [
         'as' => 'get_banner_images',
         'uses' => 'App\Http\Controllers\CategoryController@getBannerCategories'
     ]);
+});
+Route::group([
+    'prefix' => 'dashboard',
+    'middleware' => 'dashboard'
+], function () {
+    Route::get('access', function (Request $request) {
+        return new Response('',200);
+    });
 });
 
 
@@ -48,11 +63,11 @@ Route::apiResource('role', RoleController::class)->except(['show']);
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth',
-    'namespace' => 'App\Http\Controllers',
+    'namespace' => 'App\Http\Controllers'
 ], function ($router) {
     Route::post('login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register']);
+    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register'])->middleware('throttle:1,5');
 });

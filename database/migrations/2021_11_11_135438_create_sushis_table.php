@@ -18,6 +18,7 @@ class CreateSushisTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('image_path')->nullable();
+            $table->string('server_image_path')->default('');
             $table->integer('price');
             $table->integer('discount_price')->default(0)->nullable();
             $table->integer('gram_count')->nullable(); // кол-во грамм

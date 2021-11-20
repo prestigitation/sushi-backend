@@ -14,7 +14,7 @@ class CategoryTest extends TestCase
      */
     public function testSelectedCategoryHasValidImage()
     {
-        $testModel = Category::findOrFail(1);
-        $this->assertFileExists($testModel->image_path);
+        $testModel = Category::first();
+        $this->assertFileExists($testModel->preview_image);
     }
 }

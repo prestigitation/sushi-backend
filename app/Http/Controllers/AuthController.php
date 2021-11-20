@@ -31,9 +31,12 @@ class AuthController extends Controller
      *     @OA\Response(response="403", description="Forbidden")
      * ),
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
         //dd($credentials);
         if (! $token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -115,7 +118,7 @@ class AuthController extends Controller
      *     @OA\Response(response="500", description="Returns when there is an error creating the user in database(e.g when user with unique email already exists)"),
      * ),
      */
-    public function register(RegisterUserRequest $request)
+    public function register(Request $request)
     {
         try {
             $user = new User();
@@ -124,10 +127,10 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => $request->password
             ]);
-            $user->roles()->attach(Role::ROLE_USER);
-            return new JsonResponse(['message' => 'Вы успешно зарегистрировались!']);
+            $user->role()->attach(Role::ROLE_USER);
+            return new JsonResponse(['message' => 'Вы успешно зарегистрировались!'], 200);
         } catch (\Exception $e) {
-            return new JsonResponse(['message' => 'Не удалось зарегистрировать пользователя. Возможно, в базе уже существуют пользователи с таким же e-mail']);
+            return new JsonResponse(['message' => 'Не удалось зарегистрировать пользователя. Возможно, в базе уже существуют пользователи с таким же e-mail'], 400);
         }
     }
 }

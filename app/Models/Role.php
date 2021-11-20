@@ -12,12 +12,16 @@ class Role extends Model
     const ROLE_USER = 1;
     const ROLE_ADMIN = 2;
     const ROLE_COURIER = 3;
-    const ROLES_LIST = [
-        'ROLE_USER' => self::ROLE_USER,
-        'ROLE_ADMIN' => self::ROLE_ADMIN,
-        'ROLE_COURIER' => self::ROLE_COURIER
-    ];
 
+    const ROLES_LIST = [
+        'Пользователь' => self::ROLE_USER,
+        'Администратор' => self::ROLE_ADMIN,
+        'Курьер' => self::ROLE_COURIER
+    ];
+    const ADMIN_PANEL_ROLES_LIST = [
+        ROLE::ROLE_ADMIN,
+        ROLE::ROLE_COURIER
+    ];
     public $timestamps = false;
 
     public function users()

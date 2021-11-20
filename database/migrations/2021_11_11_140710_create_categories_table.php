@@ -19,9 +19,10 @@ class CreateCategoriesTable extends Migration
             $table->string('slug');
             $table->string('preview_image')->default(''); // миниатюрная картинка категории в блоке слева
             $table->string('image')->default('');
+            $table->string('server_image_path')->default('');
             $table->boolean('image_small');
             $table->boolean('in_stock')->default(true); // доступна ли категория, есть ли в наличии
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

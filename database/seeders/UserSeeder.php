@@ -16,20 +16,21 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $users = [[
-                'name' => 'admin',
-                'email' => 'admin@tocka.ru',
-                'password' => '123',
-            ],
+        $users = [
             [
                 'name' => 'user',
                 'email' => 'user@tocka.ru',
                 'password' => '123',
             ],
             [
+                'name' => 'admin',
+                'email' => env('ADMIN_EMAIL'),
+                'password' => env('ADMIN_PASSWORD'),
+            ],
+            [
                 'name' => 'courier',
-                'email' => 'courier@tocka.ru',
-                'password' => '123',
+                'email' => env('COURIER_EMAIL'),
+                'password' => env('COURIER_PASSWORD'),
             ]
         ];
         $roles = array_values(Role::ROLES_LIST);

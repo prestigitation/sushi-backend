@@ -25,6 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('access_dashboard', 'App\Policies\DashboardPolicy@access_dashboard');
     }
 }

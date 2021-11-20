@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/product/index_page",
+     *     path="/api/product/index_page/products_list",
      *     @OA\Response(response="200", description="Returns products that will be displayed in the index page"),
      *     @OA\Response(response="404", description="Response when Products not found")
      *     @OA\Response(response="400", description="Response when filter is not defined, because index page needs it")
@@ -40,15 +40,24 @@ class ProductController extends Controller
         $filter = request()->input('filter');
         if($filter) {
             $products = ProductService::getIndexPageProductsByFilter($filter);
-            $carouselProducts = ProductService::getCarousel();
-            if($products && $carouselProducts) {
-                return new JsonResponse([
-                        'carousel' => $carouselProducts,
-                        'products' => $products
-                    ]
-                );
+            if($products) {
+                return new JsonResponse(compact('products'));
             } else return abort(404);
         } else return new JsonResponse(['message' => 'Для получения данных необходимо указать фильтр продукта в запросе'], 400);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/product/index_page/carousel",
+     *     @OA\Response(response="200", description="Returns products that will be displayed in the index page, in vue slick carousel"),
+     *     @OA\Response(response="404", description="Response when Products not found")
+     * ),
+     */
+    public function getIndexPageCarousel() {
+        $carousel = ProductService::getCarousel();
+        if($carousel) {
+            return new JsonResponse(compact('carousel'));
+        }
     }
 
     /**
