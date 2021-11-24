@@ -34,6 +34,10 @@ Route::group([
         'as' => 'get_index_page_carousel',
         'uses' => 'App\Http\Controllers\ProductController@getIndexPageCarousel'
     ]);
+    Route::get('{slug}', [
+        'as' => 'get_product_by_slug',
+        'uses' => 'App\Http\Controllers\ProductController@findBySlug'
+    ]);
 
 });
 Route::group([
@@ -42,6 +46,10 @@ Route::group([
     Route::get('grid_banner', [
         'as' => 'get_banner_images',
         'uses' => 'App\Http\Controllers\CategoryController@getBannerCategories'
+    ]);
+    Route::get('category_page/{slug}', [
+        'as' => 'get_category_and_products',
+        'uses' => 'App\Http\Controllers\CategoryController@getBySlug'
     ]);
 });
 Route::group([
@@ -54,7 +62,7 @@ Route::group([
 });
 
 
-Route::apiResource('product', ProductController::class);
+Route::apiResource('product', ProductController::class)->except(['show']);
 Route::apiResource('category', CategoryController::class);
 Route::apiResource('role', RoleController::class)->except(['show']);
 

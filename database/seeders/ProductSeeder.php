@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
+use App\Models\Consist;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
 
@@ -16,16 +18,6 @@ class ProductSeeder extends Seeder
     public function run()
     {
         $sushiSets = [
-            //Суши сеты
-            [
-                'name' => 'Саломон сет',
-                'gram_count' => 1050,
-                'pieces_count' => 30,
-                'price' => 1500,
-                'discount_price' => 0,
-                'server_image_path' => public_path().'/images/products/sets/salomon.jpg',
-                'image_path' => env('APP_PATH').'/images/products/sets/salomon.jpg'
-            ],
             [
                 'name' => 'Лосось сет',
                 'gram_count' => 1050,
@@ -64,40 +56,52 @@ class ProductSeeder extends Seeder
                 'pieces_count' => 30,
                 'price' => 1500,
                 'discount_price' => 0,
+                'consist' => [
+                    Consist::CONSIST_AVOCADO,
+                    Consist::CONSIST_CUCUMBER,
+                    Consist::CONSIST_PHILADELPHIA,
+                    Consist::CONSIST_LOSOS
+                ]
             ],
             [
-              'name' => 'Якудза сет',
-              'gram_count' => 1270,
-              'pieces_count' => 5,
-              'price' => 1499,
-              'discount_price' => 0,
-              'server_image_path' => public_path().'/images/products/sets/yakuza.jpg',
-              'image_path' => env('APP_PATH').'/images/products/sets/yakuza.jpg'
-            ],
-            [
-              'name' => 'Филадельфия LOVE сет',
-              'gram_count' => 1000,
-              'pieces_count' => 40,
-              'price' => 1479,
-              'discount_price' => 0,
-              'server_image_path' => public_path().'/images/products/sets/love.jpg',
-              'image_path' => env('APP_PATH').'/images/products/sets/love.jpg'
-            ],
-            [
-              'name' => 'Топовый сет',
-              'gram_count' => 1020,
-              'pieces_count' => 40,
-              'price' => 1519,
-              'discount_price' => 0,
-              'server_image_path' => public_path().'/images/products/sets/top.jpg',
-              'image_path' => env('APP_PATH').'/images/products/sets/top.jpg'
+                'name' => 'Якудза сет',
+                'gram_count' => 1270,
+                'pieces_count' => 5,
+                'price' => 1499,
+                'discount_price' => 0,
+                'server_image_path' => public_path().'/images/products/sets/yakuza.jpg',
+                'image_path' => env('APP_PATH').'/images/products/sets/yakuza.jpg'
+                ],
+                [
+                'name' => 'Филадельфия LOVE сет',
+                'gram_count' => 1000,
+                'pieces_count' => 40,
+                'price' => 1479,
+                'discount_price' => 0,
+                'server_image_path' => public_path().'/images/products/sets/love.jpg',
+                'image_path' => env('APP_PATH').'/images/products/sets/love.jpg'
+                ],
+                [
+                'name' => 'Топовый сет',
+                'gram_count' => 1020,
+                'pieces_count' => 40,
+                'price' => 1519,
+                'discount_price' => 0,
+                'server_image_path' => public_path().'/images/products/sets/top.jpg',
+                'image_path' => env('APP_PATH').'/images/products/sets/top.jpg'
             ],
 
         ];
         foreach($sushiSets as $product) {
-            $prod = new Product();
-            $prod = Product::create($prod->forceFill($product)->toArray());
+            $prod = array_diff_key($product, array_flip(['consist']));
+            $prod = Product::create($prod);
             $prod->categories()->attach(Category::SETS);
+            $productConsist = $product['consist'] ?? null;
+            if($productConsist != null) {
+                foreach($product['consist'] as $consistId) {
+                    $prod->consists()->attach($consistId);
+                }
+            }
         }
     }
 }

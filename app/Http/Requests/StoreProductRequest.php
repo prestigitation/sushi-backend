@@ -51,7 +51,6 @@ class StoreProductRequest extends FormRequest
             'discount_price' => 'nullable',
             'gram_count' => 'nullable|integer',
             'pieces_count' => 'nullable|integer',
-            'consist' => 'nullable|json'
         ];
     }
 

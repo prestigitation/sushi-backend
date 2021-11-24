@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\CategoryObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -17,13 +18,11 @@ class Category extends Model
     use HasFactory;
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class);
     }
     public static function boot()
     {
-        parent::boot(); // TODO: refactor with events
-        static::creating(function (Category $category) {
-            $category->slug = Str::slug($category->name);
-        });
+        parent::boot();
+        Category::observe(new CategoryObserver);
     }
 }

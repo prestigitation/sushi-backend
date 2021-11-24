@@ -36,7 +36,7 @@ class Product extends Model
     }
     public function consists()
     {
-        return $this->hasMany(Consist::class);
+        return $this->belongsToMany(Consist::class);
     }
 
 

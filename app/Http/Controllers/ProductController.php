@@ -8,6 +8,8 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Resources\ProductCollection;
 
 use App\Http\Services\ProductService;
+use App\Models\Category;
+use App\Models\Product;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\JsonResponse;
 
@@ -44,6 +46,10 @@ class ProductController extends Controller
                 return new JsonResponse(compact('products'));
             } else return abort(404);
         } else return new JsonResponse(['message' => 'Для получения данных необходимо указать фильтр продукта в запросе'], 400);
+    }
+
+    public function getByCategory(Category $category) {
+
     }
 
     /**
@@ -85,10 +91,17 @@ class ProductController extends Controller
             } else return abort(500);
     }
 
-
-    public function show($id)
-    {
-        //
+    /*@OA\Get(
+     *     path="/api/product/{slug}",
+     *     @OA\Response(response="200", description="Display listing of product by slug"),
+     *     @OA\Response(response="404", description="Not found")
+     *     @OA\Response(response="500", description="Response when there is an DB error")
+     * ),
+     */
+    public function findBySlug(string $slug) {
+        $product = ProductService::getProductPageData($slug);
+        if(!$product) return abort(404);
+        return new JsonResponse($product);
     }
 
 

@@ -3,7 +3,9 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\ProductCollection;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 use App\Models\Category;
 
@@ -36,6 +38,19 @@ class CategoryService
             'large_images' =>  $largeBannerImages
         ];
         return $result;
+    }
+
+    public static function getBySlug(string $slug) {
+        return Category::where('slug', $slug)
+                        ->first();
+    }
+    public static function getProductsBySlug(string $slug) {
+        $category = Category::where('slug', $slug)->first();
+        $products = Category::where('id', $category->id)
+                            ->with('products')
+                            ->first();
+        $productCollection = collect($products);
+        return $productCollection['products'];
     }
 
     /**

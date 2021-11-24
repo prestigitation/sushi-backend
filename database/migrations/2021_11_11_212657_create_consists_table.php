@@ -14,8 +14,9 @@ class CreateConsistsTable extends Migration
     public function up()
     {
         Schema::create('consists', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->autoIncrement();
             $table->string('name');
+            $table->string('image_path');
         });
     }
 

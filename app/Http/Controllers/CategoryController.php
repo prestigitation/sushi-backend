@@ -54,6 +54,25 @@ class CategoryController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/category/category_page/{slug}}",
+     *     @OA\Response(response="200", description="Returns a listing of category by slug"),
+     *     @OA\Response(response="404", description="Not found")
+     * ),
+     */
+    public function getBySlug(string $slug) {
+        $categoryImage = CategoryService::getBySlug($slug);
+        $categoryProducts = CategoryService::getProductsBySlug($slug);
+        if(!$categoryImage && !$categoryProducts) {
+            return abort(404);
+        }
+        return new JsonResponse([
+            'category' => $categoryImage,
+            'products' => $categoryProducts
+        ]);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

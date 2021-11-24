@@ -34,6 +34,22 @@ class ProductService {
                                             ->get());
     }
 
+    public static function findBySlug(string $slug) {
+        $product = Product::where('slug', $slug)
+                      ->with('consists')
+                      ->first();
+        $product = collect($product);
+        return $product;
+    }
+
+    public static function getProductPageData(string $slug) {
+        $recommendations_array =(array) self::getAll();
+        return [
+            'product' => self::findBySlug($slug),
+            'recommendations' => array_slice($recommendations_array,0,10)['collection']
+        ];
+    }
+
 
     public static function store(StoreProductRequest $request)
     {
