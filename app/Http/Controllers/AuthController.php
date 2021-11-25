@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegister;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\Role;
@@ -16,7 +17,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+        $this->middleware('auth:api', ['except' => ['login', 'refresh',  'register']]);
     }
 
     /**
@@ -124,15 +125,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
-            $user = new User();
-            $user = User::create([
+            $userData = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password
-            ]);
+            ];
+            $user = new User();
+            $user = User::create($userData);
             $user->role()->attach(Role::ROLE_USER);
+            UserRegister::dispatch($user);
             return new JsonResponse(['message' => 'Вы успешно зарегистрировались!'], 200);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return new JsonResponse(['message' => 'Не удалось зарегистрировать пользователя. Возможно, в базе уже существуют пользователи с таким же e-mail'], 400);
         }
     }

@@ -77,5 +77,5 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register'])->middleware('throttle:1,5');
+    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register']);//->middleware('throttle:1,5');
 });

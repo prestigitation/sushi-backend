@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Services;
+namespace App\Http\Repository;
 
 use App\Http\Filters\ProductFilter;
 use App\Http\Requests\StoreProductRequest;
@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Request;
 use App\Models\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductService {
+class ProductRepository
+{
     /**
      * Display a listing of the resource.
      *

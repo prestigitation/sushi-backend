@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Repository;
 
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\ProductCollection;
@@ -9,7 +9,7 @@ use App\Models\Product;
 
 use App\Models\Category;
 
-class CategoryService
+class CategoryRepository
 {
     /**
      * Display a listing of the resource.

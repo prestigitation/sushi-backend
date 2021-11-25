@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryCollection;
-use App\Http\Services\CategoryService;
+use App\Http\Repository\CategoryRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $allCategories = CategoryService::getAll();
+        $allCategories = CategoryRepository::getAll();
         if($allCategories) {
             return new JsonResponse($allCategories);
         } else return abort(404);
@@ -47,7 +47,7 @@ class CategoryController extends Controller
      * ),
      */
     public function getBannerCategories() {
-        $bannerCategories = CategoryService::getBannerCategories();
+        $bannerCategories = CategoryRepository::getBannerCategories();
         if($bannerCategories) {
             return new JsonResponse($bannerCategories);
         } else return abort(404);
@@ -61,8 +61,8 @@ class CategoryController extends Controller
      * ),
      */
     public function getBySlug(string $slug) {
-        $categoryImage = CategoryService::getBySlug($slug);
-        $categoryProducts = CategoryService::getProductsBySlug($slug);
+        $categoryImage = CategoryRepository::getBySlug($slug);
+        $categoryProducts = CategoryRepository::getProductsBySlug($slug);
         if(!$categoryImage && !$categoryProducts) {
             return abort(404);
         }

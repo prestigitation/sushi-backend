@@ -7,7 +7,7 @@ use App\Http\Requests\StoreProductRequest;
 
 use App\Http\Resources\ProductCollection;
 
-use App\Http\Services\ProductService;
+use App\Http\Repository\ProductRepository;
 use App\Models\Category;
 use App\Models\Product;
 use Facade\FlareClient\Http\Response;
@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $allProduct = ProductService::getAll();
+        $allProduct = ProductRepository::getAll();
         if($allProduct) {
             return new ProductCollection($allProduct);
         } else return abort(404);
@@ -41,7 +41,7 @@ class ProductController extends Controller
     public function getIndexPageProducts() {
         $filter = request()->input('filter');
         if($filter) {
-            $products = ProductService::getIndexPageProductsByFilter($filter);
+            $products = ProductRepository::getIndexPageProductsByFilter($filter);
             if($products) {
                 return new JsonResponse(compact('products'));
             } else return abort(404);
@@ -60,7 +60,7 @@ class ProductController extends Controller
      * ),
      */
     public function getIndexPageCarousel() {
-        $carousel = ProductService::getCarousel();
+        $carousel = ProductRepository::getCarousel();
         if($carousel) {
             return new JsonResponse(compact('carousel'));
         }
@@ -84,7 +84,7 @@ class ProductController extends Controller
     {
             $validated = $request->validated();
             if($validated) {
-                $product = ProductService::store($request);
+                $product = ProductRepository::store($request);
                 if($product) {
                     return response($product,200);
                 } else return abort(500);
@@ -99,7 +99,7 @@ class ProductController extends Controller
      * ),
      */
     public function findBySlug(string $slug) {
-        $product = ProductService::getProductPageData($slug);
+        $product = ProductRepository::getProductPageData($slug);
         if(!$product) return abort(404);
         return new JsonResponse($product);
     }
