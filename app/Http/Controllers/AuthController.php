@@ -17,7 +17,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh',  'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'refresh',  'register', 'logout']]);
     }
 
     /**
@@ -140,5 +140,7 @@ class AuthController extends Controller
             return new JsonResponse(['message' => 'Не удалось зарегистрировать пользователя. Возможно, в базе уже существуют пользователи с таким же e-mail'], 400);
         }
     }
+
+
 }
 

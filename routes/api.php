@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -62,9 +63,11 @@ Route::group([
 });
 
 
+
 Route::apiResource('product', ProductController::class)->except(['show']);
-Route::apiResource('category', CategoryController::class);
+Route::apiResource('category', CategoryController::class)->except(['show']);
 Route::apiResource('role', RoleController::class)->except(['show']);
+Route::apiResource('order', OrderController::class)->except(['show']);
 
 
 
