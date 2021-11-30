@@ -67,7 +67,7 @@ Route::group([
 Route::apiResource('product', ProductController::class)->except(['show']);
 Route::apiResource('category', CategoryController::class)->except(['show']);
 Route::apiResource('role', RoleController::class)->except(['show']);
-Route::apiResource('order', OrderController::class)->except(['show']);
+Route::apiResource('order', OrderController::class)->except(['show'])->middleware('throttle:1,5');;
 
 
 
@@ -80,5 +80,5 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register']);//->middleware('throttle:1,5');
+    Route::post('register', [ 'as' => 'register', 'uses' => 'AuthController@register'])->middleware('throttle:1,5');
 });

@@ -2,7 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\AdjacentSelectorValues;
+use App\Rules\ValidOrderCartJson;
 use Illuminate\Foundation\Http\FormRequest;
+
+use Illuminate\Validation\Factory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MakeOrderRequest extends FormRequest
 {
@@ -13,7 +19,7 @@ class MakeOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -24,20 +30,20 @@ class MakeOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'sum' => 'string|max:255',
-            'name' => 'string|max:255',
-            'phone' => 'string|max:255',
+            'sum' => 'integer',
+            'name' => 'string|max:255|required',
+            'phone' => 'string|max:255|required',
             'comment' => 'string|max:255|nullable',
-            'street' => 'string|max:255',
-            'house' => 'string|max:255',
-            'apartment' => 'string|max:255',
-            'entrance' => 'string|max:255',
-            'house_code' => 'string|max:255',
-            'floor' => 'string|max:255',
-            'delivery_type' => 'integer',
-            'payment_type' => 'integer',
-            'time_type' => 'integer',
-            'cart' => 'json|required'
+            'street' => 'string|max:255|required',
+            'house' => 'integer|required',
+            'apartment' => 'integer|required',
+            'entrance' => 'integer',
+            'house_code' => 'integer',
+            'floor' => 'integer',
+            'delivery_type' => ['integer','required', new AdjacentSelectorValues],
+            'payment_type' => ['integer','required', new AdjacentSelectorValues],
+            'time_type' => ['integer','required', new AdjacentSelectorValues],
+            'cart' => ['json','required', new ValidOrderCartJson]
         ];
     }
 }

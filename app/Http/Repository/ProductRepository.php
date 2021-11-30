@@ -37,8 +37,8 @@ class ProductRepository
 
     public static function findBySlug(string $slug) {
         $product = Product::where('slug', $slug)
-                      ->with('consists')
-                      ->first();
+                        ->with('consists')
+                        ->first();
         $product = collect($product);
         return $product;
     }

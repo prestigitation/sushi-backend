@@ -100,7 +100,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token,array $params)
+    protected function respondWithToken($token,array $params = [])
     {
         return response()->json(array_merge([
             'access_token' => $token,
@@ -130,13 +130,11 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => $request->password
             ];
-            $user = new User();
             $user = User::create($userData);
             $user->role()->attach(Role::ROLE_USER);
             UserRegister::dispatch($user);
             return new JsonResponse(['message' => 'Вы успешно зарегистрировались!'], 200);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return new JsonResponse(['message' => 'Не удалось зарегистрировать пользователя. Возможно, в базе уже существуют пользователи с таким же e-mail'], 400);
         }
     }
