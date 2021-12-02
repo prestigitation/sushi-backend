@@ -12,6 +12,7 @@ class OrderController extends Controller
 {
     public function __construct() {
         $this->middleware('auth:api');
+        $this->middleware('throttle:1,5')->only('store');
     }
     /**
      * Display a listing of the resource.
@@ -20,7 +21,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = OrderRepository::getAll();
+        if($orders) {
+            return new JsonResponse($orders);
+        }
+        return abort(404);
     }
 
     /**
@@ -74,5 +79,10 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function attachToCourier(int $orderId, int $courierId)
+    {
+        return OrderRepository::attachToCourier($orderId,$courierId);
     }
 }

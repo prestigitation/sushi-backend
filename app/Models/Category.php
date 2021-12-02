@@ -9,13 +9,10 @@ use Illuminate\Support\Str;
 
 class Category extends Model
 {
+    use HasFactory;
     const SETS = 2;
 
     public $timestamps = false;
-    protected $casts = [
-        'sushis' => 'array'
-    ];
-    use HasFactory;
     public function products()
     {
         return $this->belongsToMany(Product::class);

@@ -40,6 +40,11 @@ class Order extends Model
         'sum' => 'integer'
     ];
 
+    public function courier()
+    {
+        return $this->belongsToMany(Courier::class);
+    }
+
     public static function boot()
     {
         parent::boot();

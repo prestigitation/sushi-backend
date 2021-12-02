@@ -60,6 +60,18 @@ Route::group([
     Route::get('access', function (Request $request) {
         return new Response('',200);
     });
+    Route::get('couriers', [
+        'as' => 'get_couriers',
+        'uses' => 'App\Http\Controllers\UserController@getCouriers'
+    ]);
+    Route::get('admins', [
+        'as' => 'get_admins',
+        'uses' => 'App\Http\Controllers\UserController@getAdmins'
+    ]);
+    Route::post('orders/{order_id}/couriers/{courier_id}', [
+        'as' => 'attach_courier_to_order',
+        'uses' => 'App\Http\Controllers\OrderController@attachToCourier'
+    ]);
 });
 
 
@@ -67,7 +79,7 @@ Route::group([
 Route::apiResource('product', ProductController::class)->except(['show']);
 Route::apiResource('category', CategoryController::class)->except(['show']);
 Route::apiResource('role', RoleController::class)->except(['show']);
-Route::apiResource('order', OrderController::class)->except(['show'])->middleware('throttle:1,5');;
+Route::apiResource('order', OrderController::class)->except(['show']);
 
 
 

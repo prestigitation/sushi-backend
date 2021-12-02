@@ -16,6 +16,9 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
+            $table->bigInteger('courier_id')->nullable();
+            $table->foreign('courier_id')->references('id')->on('users');
+            $table->boolean('is_delivered')->default(false);
             $table->string('name');
             $table->string('email');
             $table->string('phone');
@@ -32,6 +35,9 @@ class CreateOrdersTable extends Migration
             $table->enum('time_type', [1,2]);
             $table->json('cart')->nullable(false);
             $table->timestamps();
+            $table->timestamp('delegated_at')->nullable();
+            $table->timestamp('deliver_start')->nullable();
+            $table->timestamp('deliver_end')->nullable();
         });
     }
 

@@ -48,8 +48,14 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public function orders()
+    {
+        return $this->hasOne(Order::class, 'courier_id');
+    }
+
+
     public function role() {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
 
     public static function boot()
@@ -57,6 +63,7 @@ class User extends Authenticatable implements JWTSubject
         parent::boot();
         User::observe(new UserObserver);
     }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
