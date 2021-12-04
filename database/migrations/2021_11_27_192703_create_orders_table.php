@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,8 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->bigInteger('courier_id')->nullable();
-            $table->foreign('courier_id')->references('id')->on('users');
-            $table->boolean('is_delivered')->default(false);
+            $table->bigInteger('status_id')->default(Status::STATUS_NOT_ACCEPTED);
+            $table->foreign('courier_id')->references('id')->on('users')->onDelete('set null');
             $table->string('name');
             $table->string('email');
             $table->string('phone');

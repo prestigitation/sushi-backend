@@ -42,7 +42,12 @@ class Order extends Model
 
     public function courier()
     {
-        return $this->belongsToMany(Courier::class);
+        return $this->belongsTo(Courier::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 
     public static function boot()

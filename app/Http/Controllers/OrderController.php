@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Repository\OrderRepository;
 use App\Http\Requests\MakeOrderRequest;
+use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
@@ -55,7 +55,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        return Order::find($id) ?? abort(404);
     }
 
     /**
@@ -84,5 +84,20 @@ class OrderController extends Controller
     public function attachToCourier(int $orderId, int $courierId)
     {
         return OrderRepository::attachToCourier($orderId,$courierId);
+    }
+
+    public function getCourierOrders(int $courierId)
+    {
+        return OrderRepository::getCourierOrders($courierId) ?? abort(404);
+    }
+
+    public function takeOrder(int $orderId)
+    {
+        return OrderRepository::takeOrder($orderId);
+    }
+
+    public function completeOrder(int $orderId)
+    {
+        return OrderRepository::completeOrder($orderId);
     }
 }

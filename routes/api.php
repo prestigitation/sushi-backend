@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
-
+use App\Http\Controllers\UserController;
 use Symfony\Component\HttpFoundation\Response;
 
 /*
@@ -53,6 +53,7 @@ Route::group([
         'uses' => 'App\Http\Controllers\CategoryController@getBySlug'
     ]);
 });
+
 Route::group([
     'prefix' => 'dashboard',
     'middleware' => 'dashboard'
@@ -64,13 +65,33 @@ Route::group([
         'as' => 'get_couriers',
         'uses' => 'App\Http\Controllers\UserController@getCouriers'
     ]);
+    Route::get('couriers/{courier_id}/orders', [
+        'as' => 'get_courier_orders',
+        'uses' => 'App\Http\Controllers\OrderController@getCourierOrders'
+    ]);
     Route::get('admins', [
         'as' => 'get_admins',
         'uses' => 'App\Http\Controllers\UserController@getAdmins'
     ]);
+    Route::get('user', [
+        'as' => 'get_user',
+        'uses' => 'App\Http\Controllers\UserController@show'
+    ]);
+
+
+
+
     Route::post('orders/{order_id}/couriers/{courier_id}', [
         'as' => 'attach_courier_to_order',
         'uses' => 'App\Http\Controllers\OrderController@attachToCourier'
+    ]);
+    Route::post('orders/{order_id}/take', [
+        'as' => 'take_courier_order',
+        'uses' => 'App\Http\Controllers\OrderController@takeOrder'
+    ]);
+    Route::post('orders/{order_id}/complete', [
+        'as' => 'complete_courier_order',
+        'uses' => 'App\Http\Controllers\OrderController@completeOrder'
     ]);
 });
 
@@ -79,7 +100,8 @@ Route::group([
 Route::apiResource('product', ProductController::class)->except(['show']);
 Route::apiResource('category', CategoryController::class)->except(['show']);
 Route::apiResource('role', RoleController::class)->except(['show']);
-Route::apiResource('order', OrderController::class)->except(['show']);
+Route::apiResource('order', OrderController::class);
+Route::apiResource('user', UserController::class)->except(['show']);
 
 
 
