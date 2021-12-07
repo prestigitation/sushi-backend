@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -102,7 +103,7 @@ Route::apiResource('category', CategoryController::class)->except(['show']);
 Route::apiResource('role', RoleController::class)->except(['show']);
 Route::apiResource('order', OrderController::class);
 Route::apiResource('user', UserController::class)->except(['show']);
-
+Route::apiResource('comment', CommentController::class)->except(['show']);
 
 
 Route::group([

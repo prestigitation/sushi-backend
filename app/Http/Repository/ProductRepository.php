@@ -25,7 +25,7 @@ class ProductRepository
 
     public static function getIndexPageProductsByFilter($filter) {
         $filter = new ProductFilter($filter);
-        return new ProductCollection($filter->matchIndexProducts());
+        return $filter->matchIndexProducts();
     }
 
     public static function getCarousel() {
